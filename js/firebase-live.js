@@ -64,22 +64,40 @@ export const MockFirebase = {
   
   // Create
   addDoc: async (colName, data) => {
-    const enrichedData = { ...data, timestamp: new Date().toISOString() };
-    if (enrichedData.id) {
-       // If the data already has an ID (like a user flat number), force it as the Firebase document ID!
-       await setDoc(doc(db, colName, enrichedData.id), enrichedData);
-       return { ...enrichedData, id: enrichedData.id };
-    } else {
-       // Regular auto-generated ID (for complains, visitors, bills)
-       const docRef = await fbAddDoc(collection(db, colName), enrichedData);
-       return { ...enrichedData, id: docRef.id };
+    try {
+      const enrichedData = { ...data, timestamp: new Date().toISOString() };
+      if (enrichedData.id) {
+         // If the data already has an ID (like a user flat number), force it as the Firebase document ID!
+         await setDoc(doc(db, colName, enrichedData.id), enrichedData);
+         return { ...enrichedData, id: enrichedData.id };
+      } else {
+         // Regular auto-generated ID (for complains, visitors, bills)
+         const docRef = await fbAddDoc(collection(db, colName), enrichedData);
+         return { ...enrichedData, id: docRef.id };
+      }
+    } catch (err) {
+      console.error("Firebase AddDoc Error:", err);
+      throw err;
     }
   },
 
   // Update
   updateDoc: async (colName, docId, updates) => {
-    const docRef = doc(db, colName, docId);
-    await fbUpdateDoc(docRef, updates);
+    try {
+      const docRef = doc(db, colName, docId);
+      
+      // If the ID in updates is different from the document ID, we must move the document
+      if (updates.id && updates.id !== docId) {
+        console.log(`ID changed from ${docId} to ${updates.id}. Moving document...`);
+        await setDoc(doc(db, colName, updates.id), updates);
+        await fbDeleteDoc(docRef);
+      } else {
+        await fbUpdateDoc(docRef, updates);
+      }
+    } catch (err) {
+      console.error("Firebase Update Error:", err);
+      throw err;
+    }
   },
 
   // Delete

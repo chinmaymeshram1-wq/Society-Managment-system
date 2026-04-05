@@ -103,8 +103,8 @@ export function renderAdminDashboard() {
 
           <div class="form-group" style="margin: 0;">
             <label class="form-label">Password</label>
-            <input type="text" id="uPassword" class="form-input" placeholder="Letters/Numbers only (e.g. user123)" required pattern="^[a-zA-Z0-9]+$" title="Password must contain only letters and numbers (no special characters or spaces)">
-            <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.2rem; display: block;">Only uppercase, lowercase, and numbers are allowed.</small>
+            <input type="text" id="uPassword" class="form-input" placeholder="e.g. user123" required title="At least one character required.">
+            <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.2rem; display: block;">Letters, numbers and basic symbols are allowed.</small>
           </div>
 
           <div id="memberSpecificFields" style="display: block;">
@@ -138,9 +138,20 @@ export function renderAdminDashboard() {
           <div class="card-title"><i class="ph ph-receipt"></i> Generate New Bill</div>
         </div>
         <form id="billForm" class="flex-col" style="gap: 1rem;">
-          <div class="form-group" style="margin: 0;">
-            <label class="form-label">Target Flat Number</label>
-            <input type="text" id="bFlat" class="form-input" placeholder="e.g. 101 or All" required>
+          <div class="flex-row" style="gap: 1rem;">
+            <div class="form-group" style="flex: 1; margin: 0;">
+              <label class="form-label">Wing</label>
+              <select id="bWing" class="form-select" required>
+                <option value="A">Wing A</option>
+                <option value="B">Wing B</option>
+                <option value="C">Wing C</option>
+                <option value="D">Wing D</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1; margin: 0;">
+              <label class="form-label">Target Flat Number</label>
+              <input type="text" id="bFlat" class="form-input" placeholder="e.g. 101" required>
+            </div>
           </div>
           <div class="form-group" style="margin: 0;">
             <label class="form-label">Amount (₹)</label>
@@ -384,14 +395,19 @@ export function renderAdminDashboard() {
       userData.phone = uPhoneRaw;
     }
 
-    if (dbId) {
-      await MockFirebase.updateDoc('users', dbId, userData);
-      showToast('User updated successfully', 'success');
-    } else {
-      await MockFirebase.addDoc('users', userData);
-      showToast('User created', 'success');
+    try {
+      if (dbId) {
+        // Handle ID changes: if user changed flat/wing, we need to handle the underlying ID change correctly
+        await MockFirebase.updateDoc('users', dbId, userData);
+        showToast('User updated successfully', 'success');
+      } else {
+        await MockFirebase.addDoc('users', userData);
+        showToast('User created successfully', 'success');
+      }
+      content.querySelector('#uCancelBtn').click();
+    } catch (err) {
+      alert("Error saving user: " + err.message);
     }
-    content.querySelector('#uCancelBtn').click();
   });
 
   content.querySelector('#uCancelBtn').addEventListener('click', () => {
@@ -437,8 +453,20 @@ export function renderAdminDashboard() {
 
   content.querySelector('#billForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const wing = content.querySelector('#bWing').value;
+    const flatNum = content.querySelector('#bFlat').value.trim();
+    const targetId = `${wing}-${flatNum}`;
+    
+    // Check if flat exists
+    const flatExists = allUsers.find(u => u.id === targetId && u.role === 'member');
+    if (!flatExists) {
+      return alert(`Error: Cannot dispatch bill. Wing ${wing} Flat ${flatNum} does not exist in the system.`);
+    }
+
     await MockFirebase.addDoc('bills', {
-      flatNumber: content.querySelector('#bFlat').value,
+      wing: wing,
+      flatNumber: flatNum,
+      targetId: targetId,
       amount: parseFloat(content.querySelector('#bAmount').value),
       description: content.querySelector('#bDesc').value,
       dueDate: content.querySelector('#bDate').value,

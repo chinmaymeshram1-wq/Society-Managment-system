@@ -23,7 +23,7 @@ export function renderLogin() {
           <!-- Member specific inputs by default -->
           <div class="form-group">
             <label class="form-label">Flat Number / ID</label>
-            <input type="text" id="loginId" class="form-input" placeholder="e.g. 101" required>
+            <input type="text" id="loginId" class="form-input" placeholder="e.g. A-101" required>
           </div>
         </div>
 
@@ -60,7 +60,7 @@ export function renderLogin() {
       currentRole = e.target.getAttribute('data-role');
       
       if(currentRole === 'member') {
-        loginIdInput.placeholder = 'e.g. A-101 (Wing-Flat)';
+        loginIdInput.placeholder = 'e.g. A-101';
       } else if (currentRole === 'guard') {
         loginIdInput.placeholder = 'Guard ID (e.g. guard)';
       } else {
@@ -81,15 +81,15 @@ export function renderLogin() {
       
       let user;
       if (currentRole === 'member' || currentRole === 'guard' || currentRole === 'admin') {
-        // Since we explicitly made Member IDs Wing-Flat (A-101), it operates identically to Guard/Admin
-        user = users.find(u => u.role === currentRole && u.id === id);
+        const inputId = id.toUpperCase();
+        user = users.find(u => u.role === currentRole && u.id.toUpperCase() === inputId);
       }
 
-      if (user && user.password === container.querySelector('#loginPassword').value) {
+      if (user && user.password === container.querySelector('#loginPassword').value.trim()) {
         // Success
         window.appState.user = user;
         localStorage.setItem('mockSession', JSON.stringify(user));
-        navigate(user.role); // 'member', 'guard', 'admin'
+        navigate(user.role); 
       } else {
         // Error
         const err = container.querySelector('#loginError');

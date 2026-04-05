@@ -21,6 +21,7 @@ export function renderGuardDashboard() {
                 <option value="A">Wing A</option>
                 <option value="B">Wing B</option>
                 <option value="C">Wing C</option>
+                <option value="D">Wing D</option>
               </select>
             </div>
             <div class="form-group" style="flex: 1; margin: 0;">

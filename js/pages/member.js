@@ -103,7 +103,7 @@ export function renderMemberDashboard() {
 
   // --- Logic for Bills ---
   const billsListEl = content.querySelector('#billsList');
-  MockFirebase.getDocs('bills', (b) => b.flatNumber === user.flatNumber && b.status === 'pending')
+  MockFirebase.getDocs('bills', (b) => b.targetId === user.id && b.status === 'pending')
     .then(bills => {
       if (bills.length > 0) {
         billsListEl.innerHTML = '';
@@ -167,7 +167,48 @@ export function renderMemberDashboard() {
       });
       textEl.value = '';
       renderComplaints();
+      showToast('Complaint submitted successfully', 'success');
     }
+  });
+
+  // Handle Complaints Modal
+  document.addEventListener('showComplaintsModal', () => {
+    const cModal = document.createElement('div');
+    cModal.className = 'modal-overlay active';
+    cModal.innerHTML = `
+      <div class="modal-content" style="max-width: 600px;">
+        <button class="modal-close">&times;</button>
+        <h2 style="margin-bottom: 1.5rem;"><i class="ph ph-warning-circle"></i> My Complaints</h2>
+        <div id="modalComplaintsList">Loading...</div>
+      </div>
+    `;
+    document.body.appendChild(cModal);
+
+    const listEl = cModal.querySelector('#modalComplaintsList');
+    MockFirebase.getDocs('complaints', (c) => c.memberId === user.id)
+      .then(complaints => {
+        if(complaints.length === 0) {
+          listEl.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">No past complaints.</p>';
+          return;
+        }
+        listEl.innerHTML = '';
+        complaints.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(c => {
+          const div = document.createElement('div');
+          div.className = 'list-item flex-between';
+          let statusColor = c.status === 'open' ? 'var(--status-reject)' : (c.status === 'resolved' ? 'var(--status-approve)' : 'var(--status-pending)');
+          div.innerHTML = `
+            <div>
+              <p style="font-size: 0.95rem;">${c.text}</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted);">ID: ${c.id.substring(0,6).toUpperCase()} • ${new Date(c.timestamp).toLocaleDateString()}</p>
+            </div>
+            <span class="badge" style="background: ${statusColor}; color: white;">${c.status.toUpperCase()}</span>
+          `;
+          listEl.appendChild(div);
+        });
+      });
+
+    cModal.querySelector('.modal-close').addEventListener('click', () => cModal.remove());
+    cModal.addEventListener('click', (e) => { if(e.target === cModal) cModal.remove() });
   });
 
   return createLayout('Member Dashboard', content, 'dashboard');
