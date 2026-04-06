@@ -7,7 +7,7 @@ export function renderAdminDashboard() {
 
   content.innerHTML = `
     <!-- Top Stats -->
-    <div class="grid-cards" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 2rem;">
+    <div class="grid-cards" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 2rem;">
       <div class="card stat-card" style="border-left: 4px solid var(--primary);">
         <div class="stat-icon bg-blue" style="background: rgba(79, 70, 229, 0.1); color: var(--primary);">
           <i class="ph ph-users"></i>
@@ -33,6 +33,15 @@ export function renderAdminDashboard() {
         <div class="stat-info">
           <p>Total Members</p>
           <h3 id="statMembers">0</h3>
+        </div>
+      </div>
+      <div class="card stat-card" style="border-left: 4px solid #f59e0b;">
+        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+          <i class="ph ph-shield-check"></i>
+        </div>
+        <div class="stat-info">
+          <p>Total Guards</p>
+          <h3 id="statGuards">0</h3>
         </div>
       </div>
     </div>
@@ -208,6 +217,7 @@ export function renderAdminDashboard() {
 
   // --- Real-time Listeners ---
   MockFirebase.onSnapshot('users', u => u.role === 'member', m => content.querySelector('#statMembers').innerText = m.length);
+  MockFirebase.onSnapshot('users', u => u.role === 'guard', g => content.querySelector('#statGuards').innerText = g.length);
   
   // Visitors
   const renderVisitors = (searchQuery = '') => {
@@ -354,7 +364,7 @@ export function renderAdminDashboard() {
     let uPhoneRaw = content.querySelector('#uPhone').value.trim();
     
     // Validate Phone Uniqueness
-    if (role === 'member' || role === 'guard') {
+    if ((role === 'member' || role === 'guard') && uPhoneRaw) {
       const phoneExists = allUsers.find(u => u.phone === uPhoneRaw && u.id !== dbId);
       if (phoneExists) {
         return alert("Error: That phone number is already registered to another user!");

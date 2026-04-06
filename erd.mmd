@@ -1,0 +1,44 @@
+erDiagram
+    USERS ||--o{ VISITORS : "guard creates"
+    USERS ||--o{ COMPLAINTS : "member submits"
+    USERS ||--o{ BILLS : "member pays"
+    USERS {
+        string id PK
+        string role "member, guard, admin"
+        string name
+        string password
+        string phone "conditional"
+        string flatNumber "conditional"
+        string wing "conditional"
+        string timestamp
+    }
+    VISITORS {
+        string id PK
+        string guardId FK "Ref: users.id"
+        string visitorName
+        string phone
+        string reason
+        string status "pending, approved, rejected"
+        string flatNumber
+        string wing
+        string timestamp
+    }
+    COMPLAINTS {
+        string id PK
+        string memberId FK "Ref: users.id"
+        string flatNumber
+        string text
+        string status "open, resolved"
+        string timestamp
+    }
+    BILLS {
+        string id PK
+        string targetId FK "Ref: users.id"
+        string wing
+        string flatNumber
+        float amount
+        string description
+        string dueDate
+        string status "pending, paid"
+        string timestamp
+    }
