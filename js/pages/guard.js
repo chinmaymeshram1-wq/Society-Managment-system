@@ -9,7 +9,7 @@ export function renderGuardDashboard() {
     <div class="grid-cards" style="grid-template-columns: 1fr 1fr;">
       
       <!-- Left: Create Visitor Request -->
-      <div class="card" style="border-top: 4px solid var(--primary);">
+      <div class="card animate-slide-up" style="border-top: 4px solid var(--primary);">
         <div class="card-header">
           <div class="card-title"><i class="ph ph-user-plus"></i> New Visitor Request</div>
         </div>
@@ -52,7 +52,7 @@ export function renderGuardDashboard() {
       </div>
 
       <!-- Right: Recent Visitors Log -->
-      <div class="card" style="border-top: 4px solid var(--status-info); max-height: 500px; display: flex; flex-direction: column;">
+      <div class="card animate-slide-up delay-1" style="border-top: 4px solid var(--status-info); max-height: 500px; display: flex; flex-direction: column;">
         <div class="card-header" style="align-items: flex-start; flex-direction: column; gap: 0.5rem;">
           <div class="card-title"><i class="ph ph-clock-counter-clockwise"></i> Request Log</div>
           <input type="search" id="searchGuardLogs" class="form-input" placeholder="Search by name, flat, or wing..." style="padding: 0.5rem; font-size: 0.8rem;">

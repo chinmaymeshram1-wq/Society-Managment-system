@@ -4,7 +4,7 @@ import { MockFirebase } from './firebase-live.js';
 export function createLayout(title, contentElement, activeNav) {
   const user = window.appState.user;
   const layout = document.createElement('div');
-  layout.className = 'app-layout animate-fade-in';
+  layout.className = 'app-layout';
 
   // Determine Nav Items based on Role
   let navItems = '';
@@ -33,7 +33,7 @@ export function createLayout(title, contentElement, activeNav) {
 
   layout.innerHTML = `
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar animate-fade-in">
       <div class="sidebar-header">
         <h2><i class="ph ph-buildings" style="font-size: 1.5rem;"></i> Rahul Society</h2>
       </div>
@@ -46,7 +46,7 @@ export function createLayout(title, contentElement, activeNav) {
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content animate-slide-up">
       <!-- Top Header -->
       <header class="top-header">
         <div class="header-title">${title}</div>
@@ -56,12 +56,12 @@ export function createLayout(title, contentElement, activeNav) {
              <i class="ph ph-moon" id="themeIcon"></i>
           </button>
           
-          <div class="user-profile" id="profileTrigger" style="cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: background 0.2s;">
+          <div class="user-profile" id="profileTrigger" style="cursor: pointer; padding: 0.5rem; border-radius: 12px; transition: var(--transition-bounce);">
             <div class="user-info" style="text-align: right;">
               <span class="user-name">${user.name}</span>
               <span class="user-flat">${user.role === 'member' ? 'Flat: ' + user.flatNumber : 'Role: ' + user.role.toUpperCase()}</span>
             </div>
-            <div class="avatar" id="headerAvatar">${user.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : user.name.charAt(0)}</div>
+            <div class="avatar" id="headerAvatar" style="box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4); border: 2px solid white;">${user.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : user.name.charAt(0)}</div>
           </div>
         </div>
       </header>

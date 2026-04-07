@@ -8,7 +8,7 @@ export function renderAdminDashboard() {
   content.innerHTML = `
     <!-- Top Stats -->
     <div class="grid-cards" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 2rem;">
-      <div class="card stat-card" style="border-left: 4px solid var(--primary);">
+      <div class="card stat-card animate-slide-up" style="border-left: 4px solid var(--primary);">
         <div class="stat-icon bg-blue" style="background: rgba(79, 70, 229, 0.1); color: var(--primary);">
           <i class="ph ph-users"></i>
         </div>
@@ -17,7 +17,7 @@ export function renderAdminDashboard() {
           <h3 id="statVisitors">0</h3>
         </div>
       </div>
-      <div class="card stat-card" style="border-left: 4px solid var(--status-reject);">
+      <div class="card stat-card animate-slide-up delay-1" style="border-left: 4px solid var(--status-reject);">
         <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--status-reject);">
           <i class="ph ph-warning-circle"></i>
         </div>
@@ -26,7 +26,7 @@ export function renderAdminDashboard() {
           <h3 id="statComplaints">0</h3>
         </div>
       </div>
-      <div class="card stat-card" style="border-left: 4px solid var(--status-approve);">
+      <div class="card stat-card animate-slide-up delay-2" style="border-left: 4px solid var(--status-approve);">
         <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--status-approve);">
           <i class="ph ph-user-gear"></i>
         </div>
@@ -35,7 +35,7 @@ export function renderAdminDashboard() {
           <h3 id="statMembers">0</h3>
         </div>
       </div>
-      <div class="card stat-card" style="border-left: 4px solid #f59e0b;">
+      <div class="card stat-card animate-slide-up delay-3" style="border-left: 4px solid #f59e0b;">
         <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
           <i class="ph ph-shield-check"></i>
         </div>
@@ -56,7 +56,7 @@ export function renderAdminDashboard() {
     <!-- Complaints & Visitors View -->
     <div id="view1" class="grid-cards" style="grid-template-columns: 1fr 1fr;">
       <!-- Complaints Manager -->
-      <div class="card" style="border-top: 4px solid var(--status-reject); max-height: 500px; overflow-y: auto;">
+      <div class="card animate-slide-up delay-4" style="border-top: 4px solid var(--status-reject); max-height: 500px; overflow-y: auto;">
         <div class="card-header">
           <div class="card-title"><i class="ph ph-warning-circle"></i> Global Complaints</div>
         </div>
@@ -64,7 +64,7 @@ export function renderAdminDashboard() {
       </div>
 
       <!-- Visitor Logs -->
-      <div class="card" style="border-top: 4px solid var(--primary); max-height: 500px; display: flex; flex-direction: column;">
+      <div class="card animate-slide-up delay-5" style="border-top: 4px solid var(--primary); max-height: 500px; display: flex; flex-direction: column;">
         <div class="card-header" style="align-items: flex-start; flex-direction: column; gap: 0.5rem;">
           <div class="card-title"><i class="ph ph-address-book"></i> All Visitors</div>
           <input type="search" id="searchVisitors" class="form-input" placeholder="Search visitors by name or flat..." style="padding: 0.5rem; font-size: 0.8rem;">

@@ -9,13 +9,13 @@ export function renderMemberDashboard() {
   content.innerHTML = `
     <div class="grid-cards">
       <!-- Welcome Card -->
-      <div class="card" style="grid-column: 1 / -1; background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%); color: white;">
+      <div class="card animate-slide-up" style="grid-column: 1 / -1; background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%); color: white;">
         <h2>Welcome back, ${user.name}!</h2>
         <p style="opacity: 0.9; margin-top: 0.5rem;">Here is your dashboard for Flat ${user.flatNumber}, Wing ${user.wing}.</p>
       </div>
 
       <!-- Visitor Approvals (Real-time) -->
-      <div class="card" style="border-top: 4px solid var(--status-info);">
+      <div class="card animate-slide-up delay-1" style="border-top: 4px solid var(--status-info);">
         <div class="card-header">
           <div class="card-title"><i class="ph ph-users"></i> Visitor Requests</div>
           <span class="badge bg-blue" id="visitorCount">0</span>
@@ -26,7 +26,7 @@ export function renderMemberDashboard() {
       </div>
 
       <!-- Outstanding Bills -->
-      <div class="card" style="border-top: 4px solid var(--status-reject);">
+      <div class="card animate-slide-up delay-2" style="border-top: 4px solid var(--status-reject);">
         <div class="card-header">
           <div class="card-title"><i class="ph ph-receipt"></i> Pending Bills</div>
         </div>
@@ -36,7 +36,7 @@ export function renderMemberDashboard() {
       </div>
       
       <!-- Complaint System -->
-       <div class="card" style="grid-column: 1 / -1; border-top: 4px solid var(--status-pending);">
+       <div class="card animate-slide-up delay-3" style="grid-column: 1 / -1; border-top: 4px solid var(--status-pending);">
         <div class="card-header">
           <div class="card-title"><i class="ph ph-warning-circle"></i> Submit a Complaint</div>
         </div>
