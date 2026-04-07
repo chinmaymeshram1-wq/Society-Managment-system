@@ -72,9 +72,21 @@ export function renderGuardDashboard() {
     btn.innerHTML = '<i class="ph ph-spinner-gap"></i> Sending...';
     btn.disabled = true;
 
+    const flatNumber = content.querySelector('#vFlat').value.trim();
+    const wing = content.querySelector('#vWing').value;
+
+    // Check if member exists
+    const members = await MockFirebase.getDocs('users', u => u.role === 'member' && u.wing === wing && u.flatNumber === flatNumber);
+    if (members.length === 0) {
+      showToast(`Error: Member with Flat ${flatNumber} in Wing ${wing} not found!`, 'error');
+      btn.innerHTML = '<i class="ph ph-paper-plane-right"></i> Send Approval Request';
+      btn.disabled = false;
+      return;
+    }
+
     const data = {
-      wing: content.querySelector('#vWing').value,
-      flatNumber: content.querySelector('#vFlat').value.trim(),
+      wing: wing,
+      flatNumber: flatNumber,
       visitorName: content.querySelector('#vName').value.trim(),
       phone: content.querySelector('#vPhone').value.trim(),
       reason: content.querySelector('#vReason').value.trim(),
