@@ -77,7 +77,7 @@ This system is designed as a **Single Page Application (SPA)** with a clean and 
 
 ## 🌍 Live Demo
 
-👉 https://chinmaymeshram1-wq.github.io/Society-Management-system/
+👉 https://chinmaymeshram1-wq.github.io/Society-Managment-system/
 
 ---
 
