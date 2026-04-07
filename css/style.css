@@ -32,24 +32,24 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: -1;
-  background: radial-gradient(circle at 0% 0%, #e0e7ff 0%, #f1f5f9 100%);
+  background: radial-gradient(circle at 50% 50%, #f1f5f9 0%, #e0e7ff 100%);
   overflow: hidden;
 }
 
 .blob {
   position: absolute;
-  width: 500px;
-  height: 500px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%);
-  filter: blur(80px);
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%);
+  filter: blur(60px); /* Lower blur for more 'energetic' visibility */
   border-radius: 50%;
   z-index: -1;
-  animation: moveBlob 20s infinite alternate ease-in-out;
+  animation: moveBlob 15s infinite alternate ease-in-out;
 }
 
-.blob-1 { top: -100px; left: -100px; animation-duration: 25s; }
-.blob-2 { bottom: -100px; right: -100px; animation-duration: 30s; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%); }
-.blob-3 { top: 40%; left: 30%; width: 300px; height: 300px; animation-duration: 20s; background: rgba(244, 63, 94, 0.05); }
+.blob-1 { top: -100px; left: -100px; animation-duration: 20s; }
+.blob-2 { bottom: -100px; right: -100px; animation-duration: 25s; background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(16, 185, 129, 0.2) 100%); }
+.blob-3 { top: 40%; left: 30%; width: 400px; height: 400px; animation-duration: 15s; background: rgba(244, 63, 94, 0.1); }
 
 @keyframes moveBlob {
   0% { transform: translate(0, 0) scale(1); }
@@ -193,7 +193,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f3f4f6 0%, #e2e8f0 100%);
+  background: transparent; /* Changed to transparent to show bg-animation */
 }
 
 .login-card {
